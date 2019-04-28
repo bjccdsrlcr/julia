@@ -65,7 +65,7 @@ end
 end
 
 @testset "mean" begin
-    @test_throws MethodError mean(())
+    @test_throws ArgumentError mean(())
     @test mean((1,2,3)) === 2.
     @test mean([0]) === 0.
     @test mean([1.]) === 1.
@@ -108,8 +108,8 @@ end
     @test mean(Int[]) isa Float64
     @test isequal(mean(skipmissing(Int[])), NaN)
     @test mean(skipmissing(Int[])) isa Float64
-    @test_throws MethodError mean([])
-    @test_throws MethodError mean(skipmissing([]))
+    @test_throws ArgumentError mean([])
+    @test_throws ArgumentError mean(skipmissing([]))
     @test_throws ArgumentError mean((1 for i in 2:1))
 
     # Check that small types are accumulated using wider type
@@ -136,10 +136,10 @@ end
 @testset "var & std" begin
     # edge case: empty vector
     # iterable; this has to throw for type stability
-    @test_throws MethodError var(())
-    @test_throws MethodError var((); corrected=false)
-    @test_throws MethodError var((); mean=2)
-    @test_throws MethodError var((); mean=2, corrected=false)
+    @test_throws ArgumentError var(())
+    @test_throws ArgumentError var((); corrected=false)
+    @test_throws ArgumentError var((); mean=2)
+    @test_throws ArgumentError var((); mean=2, corrected=false)
     # reduction
     @test isnan(var(Int[]))
     @test isnan(var(Int[]; corrected=false))
@@ -277,9 +277,9 @@ end
     @test var(Complex{Float64}[]) isa Float64
     @test isequal(var(skipmissing(Complex{Float64}[])), NaN)
     @test var(skipmissing(Complex{Float64}[])) isa Float64
-    @test_throws MethodError var([])
-    @test_throws MethodError var(skipmissing([]))
-    @test_throws MethodError var((1 for i in 2:1))
+    @test_throws ArgumentError var([])
+    @test_throws ArgumentError var(skipmissing([]))
+    @test_throws ArgumentError var((1 for i in 2:1))
     @test isequal(var(Int[]), NaN)
     @test var(Int[]) isa Float64
     @test isequal(var(skipmissing(Int[])), NaN)
